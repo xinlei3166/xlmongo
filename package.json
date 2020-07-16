@@ -2,12 +2,16 @@
   "name": "xlmongo",
   "version": "0.1.0",
   "description": "",
+  "author": "junxi",
+  "license": "ISC",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xinlei3166/xlmongo.git"
+  },
   "scripts": {
     "test": "jest"
   },
-  "author": "junxi",
-  "license": "ISC",
   "dependencies": {
     "generic-pool": "^3.7.1",
     "mongodb": "^3.5.9"
