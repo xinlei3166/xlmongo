@@ -1,0 +1,18 @@
+{
+  "name": "xlmongo",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "junxi",
+  "license": "ISC",
+  "dependencies": {
+    "generic-pool": "^3.7.1",
+    "mongodb": "^3.5.9"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0"
+  }
+}
