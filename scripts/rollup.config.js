@@ -84,6 +84,7 @@ function genConfig (format) {
 
   if (opts.transpile !== false) {
     config.plugins.push(buble({
+      objectAssign: 'Object.assign',
       transforms: {
         arrow: true,
         dangerousForOf: true,

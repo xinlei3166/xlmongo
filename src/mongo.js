@@ -5,41 +5,41 @@ class Mongo {
   constructor(connection, opts) {
     const { host, port, db, user, password } = connection
     const _port = port || 27017
-    const _opts = opts || { max: 10, min: 2 }
+    const _opts = opts || {}
     const _url = `mongodb://${user}:${password}@${host}:${_port}/${db}`
     this.db = db
     this.pool = createPool(_url, _opts)
   }
 
   // 从连接池获取连接
-  async acquire() {
-    let connect
-    try {
-      connect = await this.pool.acquire()
-      return connect
-    } catch (e) {
-      throw Error('pool acquire error.')
-    } finally {
-      this.pool.release(connect)
-    }
+  acquire() {
+    return new Promise(((resolve, reject) => {
+      this.pool.acquire().then(function(client) {
+        resolve(client)
+      }).catch(function(err) {
+        reject(err)
+      })
+    }))
   }
 
   // 获取collection
   async collection(collection) {
     const connect = await this.acquire()
     if (connect) {
-      return connect.db(this.db).collection(collection)
+      return { connect, collection: connect.db(this.db).collection(collection) }
     }
   }
 
   // 执行语句
   async execute(collection, fn, err) {
-    const c = await this.collection(collection)
+    const { connect, collection: c } = await this.collection(collection)
     if (c) {
       try {
         return await fn(c)
       } catch (e) {
         console.log(`${err || 'execute'}: Error,`, e)
+      } finally {
+        this.pool.release(connect)
       }
     }
   }
