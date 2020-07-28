@@ -6,6 +6,7 @@ import babel from '@rollup/plugin-babel'
 import json from '@rollup/plugin-json'
 import alias from '@rollup/plugin-alias'
 import replace from '@rollup/plugin-replace'
+import { terser } from "rollup-plugin-terser"
 
 const version = process.env.VERSION || require('../package.json').version
 const resolve = dir => path.resolve(__dirname, '../', dir)
@@ -43,7 +44,8 @@ const builds = {
     format: 'umd',
     env: 'production',
     plugins: [
-      babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' })
+      babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' }),
+      terser()
       // babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' })
     ],
     external,
