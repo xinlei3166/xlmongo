@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/xinlei3166/xlmongo.git"
   },
+  "keywords": [
+    "node",
+    "mongodb",
+    "pool"
+  ],
   "scripts": {
     "test": "jest",
     "dev": "rollup -w -c scripts/config.js -environment FORMAT:cjs",
