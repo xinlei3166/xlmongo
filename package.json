@@ -22,7 +22,8 @@
     "build:cjs": "rollup -c scripts/rollup.config.js --environment FORMAT:cjs",
     "build:esm": "rollup -c scripts/rollup.config.js --environment FORMAT:esm",
     "build:umd": "rollup -c scripts/rollup.config.js --environment FORMAT:umd",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "deploy": "npm run build && npm publish"
   },
   "dependencies": {
     "generic-pool": "^3.7.1",
