@@ -6,7 +6,12 @@ class Mongo {
     const { host, port, db, user, password } = connection
     const _port = port || 27017
     const _opts = opts || {}
-    const _url = `mongodb://${user}:${password}@${host}:${_port}/${db}`
+    let _url
+    if ([user, password, db].every(x => x)) {
+      _url = `mongodb://${user}:${password}@${host}:${_port}/${db}`
+    } else {
+      _url = `mongodb://${host}:${_port}`
+    }
     this.db = db
     this.pool = createPool(_url, _opts)
   }
@@ -80,7 +85,7 @@ class Mongo {
   }
 
   // 删除一条数据
-  async deleteOne(collection, data) {
+  async deleteOne(collection, data={}) {
     return await this.execute(collection, async (c) => {
       const res = await c.deleteOne(this.formatData(data))
       if (res.result.n > 0) {
@@ -90,7 +95,7 @@ class Mongo {
   }
 
   // 删除匹配到的多条数据
-  async deleteMany(collection, data) {
+  async deleteMany(collection, data={}) {
     return await this.execute(collection, async (c) => {
       const res = await c.deleteMany(this.formatData(data))
       if (res.result.n > 0) {
@@ -99,7 +104,7 @@ class Mongo {
     }, 'deleteMany')
   }
 
-  async _delete(c, data) {
+  async _delete(c, data={}) {
     const res = await c.deleteOne(this.formatData(data))
     if (res.result.n > 0) {
       return { n: res.result.n }
@@ -156,14 +161,14 @@ class Mongo {
   }
 
   // 查询一条数据
-  async findOne(collection, data) {
+  async findOne(collection, data={}) {
     return await this.execute(collection, async (c) => {
       return await c.findOne(this.formatData(data))
     }, 'findOne')
   }
 
   // 查询多条数据
-  async find(collection, data, params={}) {
+  async find(collection, data={}, params={}) {
     const keys = ['sort', 'order', 'limit']
     return await this.execute(collection, async (c) => {
       let cursor = c.find(this.formatData(data))
