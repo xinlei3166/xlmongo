@@ -68,7 +68,7 @@ class Mongo {
     return await this.execute(collection, async (c) => {
       const res = await c.insertOne(data)
       if (res.result.n > 0 && res.ops.length > 0) {
-        return { id: res.insertedId }
+        return { _id: res.insertedId }
       }
     }, 'insertOne')
   }
@@ -79,7 +79,7 @@ class Mongo {
       const res = await c.insertMany(arr)
       const length = arr.length
       if (res.result.n === length && res.ops.length === length) {
-        return Object.values(res.insertedIds).map(id => ({ id }))
+        return Object.values(res.insertedIds).map(_id => ({ _id }))
       }
     }, 'insertMany')
   }
