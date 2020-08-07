@@ -51,7 +51,11 @@ class Mongo {
 
   formatData(data) {
     if(data._id) {
-      data._id = ObjectId(data._id)
+      try {
+        data._id = ObjectId(data._id)
+      } catch {
+        //
+      }
     }
     return data
   }

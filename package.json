@@ -23,11 +23,11 @@
     "build:esm": "rollup -c scripts/rollup.config.js --environment FORMAT:esm",
     "build:umd": "rollup -c scripts/rollup.config.js --environment FORMAT:umd",
     "clean": "rm -rf dist",
-    "deploy": "npm run build && npm publish"
+    "deploy": "git push origin --tags && npm run build && npm publish"
   },
   "dependencies": {
     "generic-pool": "^3.7.1",
-    "mongodb": "^3.5.9"
+    "mongodb": "^3.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
