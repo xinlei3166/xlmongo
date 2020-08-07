@@ -11,3 +11,11 @@ m.find('pic', {name: '测试11111'}).then(res => {
 m.find('pic', {name: '测试'}, {limit: 2}).then(res => {
   console.log(res)
 })
+
+m.find('pic', {name: '测试'}, { project: { _id: 0, name: 1}}).then(res => {
+  console.log(res)
+})
+
+m.findOne('pic', {name: '测试'}, { projection: { _id: 0, name: 1}}).then(res => {
+  console.log(res)
+})

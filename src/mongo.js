@@ -161,28 +161,23 @@ class Mongo {
   }
 
   // 查询一条数据
-  async findOne(collection, data={}) {
+  async findOne(collection, data={}, options={}) {
     return await this.execute(collection, async (c) => {
-      return await c.findOne(this.formatData(data))
+      return await c.findOne(this.formatData(data), options)
     }, 'findOne')
   }
 
   // 查询多条数据
-  async find(collection, data={}, params={}) {
-    const keys = ['sort', 'order', 'limit']
+  async find(collection, data={}, options={}) {
     return await this.execute(collection, async (c) => {
       let cursor = c.find(this.formatData(data))
-      for (let [key, value] of Object.entries(params)) {
-        if (!keys.includes(key)) {
-          throw Error('Cursor Methods Params Error')
-        } else {
-          cursor = await this.chain(cursor, key, value)
-        }
+      for (let [key, value] of Object.entries(options)) {
+        cursor = await this.chain(cursor, key, value)
       }
       const _data = await cursor.toArray()
       const _total = await cursor.count()
       return { total: _total, data: _data }
-    }, 'findOne')
+    }, 'find')
   }
 }
 
