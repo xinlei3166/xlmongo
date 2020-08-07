@@ -53,7 +53,7 @@ class Mongo {
     if(data._id) {
       try {
         data._id = ObjectId(data._id)
-      } catch {
+      } catch (e){
         //
       }
     }

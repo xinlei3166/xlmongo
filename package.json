@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "generic-pool": "^3.7.1",
-    "mongodb": "^3.6.0"
+    "mongodb": "^3.5.9"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
