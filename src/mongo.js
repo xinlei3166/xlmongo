@@ -65,6 +65,7 @@ class Mongo {
     if (v){
       return await chain[k](v)
     }
+    return chain
   }
 
   // 插入一条数据

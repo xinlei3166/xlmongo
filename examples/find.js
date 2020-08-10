@@ -12,7 +12,7 @@ m.find('pic', {name: '测试'}, {limit: 2}).then(res => {
   console.log(res)
 })
 
-m.find('pic', {_id: '5f0eac05899d2f7a481aed28'}, { project: { _id: 0, name: 1}}).then(res => {
+m.find('pic', {}, { project: { _id: 0, name: 1}, limit: 10, skip: 1}).then(res => {
   console.log(res)
 })
 
