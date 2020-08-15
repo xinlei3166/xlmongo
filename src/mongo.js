@@ -6,7 +6,12 @@ class Mongo {
     const { host, port, db, user, password } = connection
     const _port = port || 27017
     const _opts = opts || {}
-    const _url = `mongodb://${user}:${password}@${host}:${_port}/${db}`
+    let _url
+    if ([user, password, db].every(x => x)) {
+      _url = `mongodb://${user}:${password}@${host}:${_port}/${db}`
+    } else {
+      _url = `mongodb://${host}:${_port}`
+    }
     this.db = db
     this.pool = createPool(_url, _opts)
   }
@@ -46,7 +51,11 @@ class Mongo {
 
   formatData(data) {
     if(data._id) {
-      data._id = ObjectId(data._id)
+      try {
+        data._id = ObjectId(data._id)
+      } catch (e){
+        //
+      }
     }
     return data
   }
@@ -56,6 +65,7 @@ class Mongo {
     if (v){
       return await chain[k](v)
     }
+    return chain
   }
 
   // 插入一条数据
@@ -63,7 +73,7 @@ class Mongo {
     return await this.execute(collection, async (c) => {
       const res = await c.insertOne(data)
       if (res.result.n > 0 && res.ops.length > 0) {
-        return { id: res.insertedId }
+        return { _id: res.insertedId }
       }
     }, 'insertOne')
   }
@@ -74,13 +84,13 @@ class Mongo {
       const res = await c.insertMany(arr)
       const length = arr.length
       if (res.result.n === length && res.ops.length === length) {
-        return Object.values(res.insertedIds).map(id => ({ id }))
+        return Object.values(res.insertedIds).map(_id => ({ _id }))
       }
     }, 'insertMany')
   }
 
   // 删除一条数据
-  async deleteOne(collection, data) {
+  async deleteOne(collection, data={}) {
     return await this.execute(collection, async (c) => {
       const res = await c.deleteOne(this.formatData(data))
       if (res.result.n > 0) {
@@ -90,7 +100,7 @@ class Mongo {
   }
 
   // 删除匹配到的多条数据
-  async deleteMany(collection, data) {
+  async deleteMany(collection, data={}) {
     return await this.execute(collection, async (c) => {
       const res = await c.deleteMany(this.formatData(data))
       if (res.result.n > 0) {
@@ -99,7 +109,7 @@ class Mongo {
     }, 'deleteMany')
   }
 
-  async _delete(c, data) {
+  async _delete(c, data={}) {
     const res = await c.deleteOne(this.formatData(data))
     if (res.result.n > 0) {
       return { n: res.result.n }
@@ -156,28 +166,23 @@ class Mongo {
   }
 
   // 查询一条数据
-  async findOne(collection, data) {
+  async findOne(collection, data={}, options={}) {
     return await this.execute(collection, async (c) => {
-      return await c.findOne(this.formatData(data))
+      return await c.findOne(this.formatData(data), options)
     }, 'findOne')
   }
 
   // 查询多条数据
-  async find(collection, data, params={}) {
-    const keys = ['sort', 'order', 'limit']
+  async find(collection, data={}, options={}) {
     return await this.execute(collection, async (c) => {
       let cursor = c.find(this.formatData(data))
-      for (let [key, value] of Object.entries(params)) {
-        if (!keys.includes(key)) {
-          throw Error('Cursor Methods Params Error')
-        } else {
-          cursor = await this.chain(cursor, key, value)
-        }
+      for (let [key, value] of Object.entries(options)) {
+        cursor = await this.chain(cursor, key, value)
       }
       const _data = await cursor.toArray()
       const _total = await cursor.count()
       return { total: _total, data: _data }
-    }, 'findOne')
+    }, 'find')
   }
 }
 

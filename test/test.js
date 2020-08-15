@@ -1,4 +1,4 @@
-const Mongo = require('../src/mongo')
+const Mongo = require('../dist/xlmongo')
 
 const m = new Mongo({
   host: 'localhost',
@@ -18,13 +18,13 @@ describe('insert', () => {
 
   test('insertOne', () => {
     return m.insertOne('pic', { name: '测试', url: '测试.png' }).then(res => {
-      expect(res).toHaveProperty('id')
+      expect(res).toHaveProperty('_id')
     })
   })
 
   test('insertMany', () => {
     return m.insertMany('pic', [{ name: '测试1', url: '测试1.png' }, { name: '测试2', url: '测试2.png' }]).then(res => {
-      expect(res).toContainEqual({id: expect.anything(String)})
+      expect(res).toContainEqual({_id: expect.anything(String)})
     })
   })
 })

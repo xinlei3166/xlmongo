@@ -1,6 +1,6 @@
 {
   "name": "xlmongo",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "",
   "author": "junxi",
   "license": "ISC",
@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/xinlei3166/xlmongo.git"
   },
+  "keywords": [
+    "node",
+    "mongodb",
+    "pool"
+  ],
   "scripts": {
     "test": "jest",
     "dev": "rollup -w -c scripts/config.js -environment FORMAT:cjs",
@@ -17,11 +22,12 @@
     "build:cjs": "rollup -c scripts/rollup.config.js --environment FORMAT:cjs",
     "build:esm": "rollup -c scripts/rollup.config.js --environment FORMAT:esm",
     "build:umd": "rollup -c scripts/rollup.config.js --environment FORMAT:umd",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "deploy": "git push origin --tags && npm run build && npm publish"
   },
   "dependencies": {
     "generic-pool": "^3.7.1",
-    "mongodb": "^3.5.9"
+    "mongodb": "^3.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -36,6 +42,7 @@
     "@rollup/plugin-replace": "^2.3.3",
     "jest": "^26.1.0",
     "npm-run-all": "^4.1.5",
-    "rollup": "^2.22.1"
+    "rollup": "^2.22.1",
+    "rollup-plugin-terser": "^6.1.0"
   }
 }
