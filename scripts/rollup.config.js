@@ -23,17 +23,17 @@ const external = Object.keys(require('../package.json').dependencies)
 const builds = {
   'cjs': {
     entry: resolve('src/index.js'),
-    dest: resolve('dist/xlmongo.js'),
+    dest: resolve('dist/xlmongo.cjs.js'),
     format: 'cjs',
     env: 'production',
     exports: 'default',
     external,
     banner
   },
-  'esm': {
+  'es': {
     entry: resolve('src/index.js'),
-    dest: resolve('dist/xlmongo.esm.js'),
-    format: 'esm',
+    dest: resolve('dist/xlmongo.es.js'),
+    format: 'es',
     env: 'production',
     external,
     banner

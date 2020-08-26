@@ -4,8 +4,8 @@
   "description": "",
   "author": "junxi",
   "license": "ISC",
-  "main": "dist/xlmongo.js",
-  "moudule": "dist/xlmongo.esm.js",
+  "main": "dist/xlmongo.cjs.js",
+  "moudule": "dist/xlmongo.es.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xinlei3166/xlmongo.git"
@@ -20,7 +20,7 @@
     "dev": "rollup -w -c scripts/config.js -environment FORMAT:cjs",
     "build": "npm run clean && run-p build:*",
     "build:cjs": "rollup -c scripts/rollup.config.js --environment FORMAT:cjs",
-    "build:esm": "rollup -c scripts/rollup.config.js --environment FORMAT:esm",
+    "build:es": "rollup -c scripts/rollup.config.js --environment FORMAT:es",
     "build:umd": "rollup -c scripts/rollup.config.js --environment FORMAT:umd",
     "clean": "rm -rf dist",
     "deploy": "git push origin --tags && npm run build && npm publish"
