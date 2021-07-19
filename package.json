@@ -3,7 +3,10 @@
   "version": "0.2.4",
   "description": "",
   "author": "junxi",
-  "license": "ISC",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "main": "dist/xlmongo.cjs.js",
   "moudule": "dist/xlmongo.es.js",
   "repository": {
