@@ -4,8 +4,8 @@
   "description": "",
   "author": "junxi",
   "license": "ISC",
-  "main": "dist/xlmongo.js",
-  "moudule": "dist/xlmongo.esm.js",
+  "main": "dist/xlmongo.cjs.js",
+  "moudule": "dist/xlmongo.es.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xinlei3166/xlmongo.git"
@@ -20,10 +20,25 @@
     "dev": "rollup -w -c scripts/config.js -environment FORMAT:cjs",
     "build": "npm run clean && run-p build:*",
     "build:cjs": "rollup -c scripts/rollup.config.js --environment FORMAT:cjs",
-    "build:esm": "rollup -c scripts/rollup.config.js --environment FORMAT:esm",
+    "build:es": "rollup -c scripts/rollup.config.js --environment FORMAT:es",
     "build:umd": "rollup -c scripts/rollup.config.js --environment FORMAT:umd",
     "clean": "rm -rf dist",
-    "deploy": "git push origin --tags && npm run build && npm publish"
+    "deploy": "git push origin --tags && npm run build && npm publish",
+    "preinstall": "node ./scripts/check-yarn.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "node scripts/verify-commit.js"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ],
+    "*.ts": [
+      "prettier --parser=typescript --write"
+    ]
   },
   "dependencies": {
     "generic-pool": "^3.7.1",
@@ -40,8 +55,12 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/plugin-replace": "^2.3.3",
+    "chalk": "^4.1.0",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "lint-staged": "^10.3.0",
     "npm-run-all": "^4.1.5",
+    "pre-commit": "^1.2.2",
     "rollup": "^2.22.1",
     "rollup-plugin-terser": "^6.1.0"
   }
